@@ -4,12 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OpenAccessButton } from "@/features/access-request/open-access-button";
+import { marketingGutter } from "@/lib/constants";
 
 import { Eyebrow } from "./eyebrow";
 
 export function ContactContent() {
   return (
-    <section className="px-[clamp(22px,7vw,120px)] py-[84px]">
+    <section className={`py-[84px] ${marketingGutter}`}>
       <Eyebrow>Contact</Eyebrow>
       <h1 className="mt-3 max-w-[720px] font-heading text-[42px] tracking-[-0.04em]">
         Start a conversation with Atlas.

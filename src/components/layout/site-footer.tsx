@@ -1,10 +1,12 @@
 import Link from "next/link";
 
-import { site } from "@/lib/constants";
+import { marketingGutter, site } from "@/lib/constants";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t px-[clamp(22px,5vw,84px)] py-8 text-sm text-muted-foreground">
+    <footer
+      className={`mt-auto border-t py-8 text-sm text-muted-foreground ${marketingGutter}`}
+    >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p>
           {site.fullName}. Approved access required for demonstrations and

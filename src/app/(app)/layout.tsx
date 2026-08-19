@@ -14,7 +14,7 @@ export default function AppLayout({
         <AppSidebar />
         <SidebarInset>
           <WorkspaceHeader />
-          <div className="flex-1  p-6">{children}</div>
+          <div className="flex-1 px-6 py-6">{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>

@@ -17,3 +17,5 @@ export const appNav = [
   { href: "/dashboard/learning", label: "Learning" },
   { href: "/dashboard/production", label: "Production" },
 ] as const;
+
+export const marketingGutter = "px-[clamp(22px,7vw,120px)]";

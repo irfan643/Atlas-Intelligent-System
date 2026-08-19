@@ -14,7 +14,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { OpenAccessButton } from "@/features/access-request/open-access-button";
-import { marketingNav, site } from "@/lib/constants";
+import { marketingGutter, marketingNav, site } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 function navHref(pathname: string, item: (typeof marketingNav)[number]) {
@@ -29,7 +29,12 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-between border-b bg-background/95 px-[clamp(22px,5vw,84px)] py-3 px-12 backdrop-blur">
+    <header
+      className={cn(
+        "sticky top-0 z-40 flex items-center justify-between border-b bg-background/95 py-3 backdrop-blur",
+        marketingGutter,
+      )}
+    >
       <Link href="/" className="text-2xl font-extrabold tracking-[-0.04em]">
         {site.name}{" "}
         <span className="text-violet">Intelligent System</span>

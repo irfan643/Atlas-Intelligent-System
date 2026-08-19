@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { marketingGutter } from "@/lib/constants";
+
 import { Eyebrow } from "./eyebrow";
 
 const solutions = [
@@ -24,7 +26,7 @@ export function SolutionsSection() {
   return (
     <section
       id="solutions"
-      className="px-[clamp(22px,7vw,120px)] py-[84px] scroll-mt-24"
+      className={`${marketingGutter} scroll-mt-24 py-[84px]`}
     >
       <Eyebrow>Solutions</Eyebrow>
       <h2 className="mt-3 max-w-[720px] font-heading text-[42px] tracking-[-0.04em]">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { AccessWizard } from "@/features/access-request/access-wizard";
+import { marketingGutter } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Request access",
@@ -8,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function AccessPage() {
   return (
-    <section className="mx-auto w-full max-w-[680px] px-[clamp(22px,5vw,84px)] py-16">
+    <section className={`mx-auto w-full max-w-[680px] py-16 ${marketingGutter}`}>
       <AccessWizard />
     </section>
   );

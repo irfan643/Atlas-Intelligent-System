@@ -1,3 +1,4 @@
+import { marketingGutter } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 import { Eyebrow } from "./eyebrow";
@@ -14,7 +15,7 @@ export function ProductionSection() {
   return (
     <section
       id="production"
-      className="bg-[#f5f8ff] px-[clamp(22px,7vw,120px)] py-[84px] scroll-mt-24"
+      className={`scroll-mt-24 bg-[#f5f8ff] py-[84px] ${marketingGutter}`}
     >
       <Eyebrow>Production Center</Eyebrow>
       <h2 className="mt-3 max-w-[720px] font-heading text-[42px] tracking-[-0.04em]">

@@ -20,7 +20,7 @@ export function WorkspaceHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="flex h-14 items-center gap-2 border-b bg-background px-4">
+    <header className="flex h-14 items-center gap-2 border-b bg-background px-6">
       <SidebarTrigger />
       <p className="font-semibold">{workspaceTitle(pathname)}</p>
     </header>
