@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { SectionLink } from "@/features/marketing/section-link";
 import { marketingGutter, site } from "@/lib/constants";
 
 export function SiteFooter() {
@@ -13,8 +14,8 @@ export function SiteFooter() {
           project materials.
         </p>
         <div className="flex gap-4 font-semibold">
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
+          <SectionLink href="/#about">About</SectionLink>
+          <SectionLink href="/#contact">Contact</SectionLink>
           <Link href="/access">Request access</Link>
         </div>
       </div>

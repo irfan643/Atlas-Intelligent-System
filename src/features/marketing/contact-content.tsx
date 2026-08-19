@@ -4,17 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { OpenAccessButton } from "@/features/access-request/open-access-button";
-import { marketingGutter } from "@/lib/constants";
+import { marketingGutter, marketingScreenSection } from "@/lib/constants";
 
 import { Eyebrow } from "./eyebrow";
 
 export function ContactContent() {
   return (
-    <section className={`py-[84px] ${marketingGutter}`}>
+    <section
+      id="contact"
+      className={`${marketingGutter} ${marketingScreenSection}`}
+    >
       <Eyebrow>Contact</Eyebrow>
-      <h1 className="mt-3 max-w-[720px] font-heading text-[42px] tracking-[-0.04em]">
+      <h2 className="mt-3 max-w-[720px] font-heading text-[42px] tracking-[-0.04em]">
         Start a conversation with Atlas.
-      </h1>
+      </h2>
       <p className="mt-4 max-w-xl text-lg text-muted-foreground">
         For a confidential preview, use the access request. General inquiries
         can be left here once a support workflow is connected.

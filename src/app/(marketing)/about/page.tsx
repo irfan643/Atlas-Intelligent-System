@@ -1,11 +1,5 @@
-import type { Metadata } from "next";
-
-import { AboutContent } from "@/features/marketing/about-content";
-
-export const metadata: Metadata = {
-  title: "About",
-};
+import SectionRedirect from "@/features/marketing/section-redirect";
 
 export default function AboutPage() {
-  return <AboutContent />;
+  return <SectionRedirect hash="about" />;
 }

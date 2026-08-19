@@ -1,11 +1,5 @@
-import type { Metadata } from "next";
-
-import { SolutionsSection } from "@/features/marketing/solutions-section";
-
-export const metadata: Metadata = {
-  title: "Solutions",
-};
+import SectionRedirect from "@/features/marketing/section-redirect";
 
 export default function SolutionsPage() {
-  return <SolutionsSection />;
+  return <SectionRedirect hash="solutions" />;
 }

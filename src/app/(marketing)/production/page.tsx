@@ -1,11 +1,5 @@
-import type { Metadata } from "next";
-
-import { ProductionSection } from "@/features/marketing/production-section";
-
-export const metadata: Metadata = {
-  title: "Production",
-};
+import SectionRedirect from "@/features/marketing/section-redirect";
 
 export default function ProductionPage() {
-  return <ProductionSection />;
+  return <SectionRedirect hash="production" />;
 }

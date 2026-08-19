@@ -15,10 +15,10 @@ export function AuthBrandPanel() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_82%_12%,#ffffff55_0_8%,transparent_32%),radial-gradient(circle_at_12%_88%,#6546d8_0_12%,transparent_40%)]" />
       <div className="relative z-2 min-h-0">
         <Link href="/" className="inline-flex items-baseline gap-2">
-          <span className="text-2xl font-extrabold tracking-[-0.04em]">
+          <span className="text-[20px] font-extrabold tracking-[-0.04em]">
             {site.name}
           </span>
-          <span className="text-base font-semibold text-white/90">
+          <span className=" text-[20px] font-extrabold tracking-[-0.04em]">
             Intelligent System
           </span>
         </Link>

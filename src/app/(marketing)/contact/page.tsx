@@ -1,11 +1,5 @@
-import type { Metadata } from "next";
-
-import { ContactContent } from "@/features/marketing/contact-content";
-
-export const metadata: Metadata = {
-  title: "Contact",
-};
+import SectionRedirect from "@/features/marketing/section-redirect";
 
 export default function ContactPage() {
-  return <ContactContent />;
+  return <SectionRedirect hash="contact" />;
 }

@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -14,20 +12,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { OpenAccessButton } from "@/features/access-request/open-access-button";
+import { SectionLink } from "@/features/marketing/section-link";
 import { marketingGutter, marketingNav, site } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-function navHref(pathname: string, item: (typeof marketingNav)[number]) {
-  if (pathname === "/" && "hash" in item && item.hash) {
-    return item.hash;
-  }
-
-  return item.href;
-}
-
 export function SiteHeader() {
-  const pathname = usePathname();
-
   return (
     <header
       className={cn(
@@ -35,22 +24,25 @@ export function SiteHeader() {
         marketingGutter,
       )}
     >
-      <Link href="/" className="text-2xl font-extrabold tracking-[-0.04em]">
+      <SectionLink
+        href="/#hero"
+        className="text-2xl font-extrabold tracking-[-0.04em]"
+      >
         {site.name}{" "}
         <span className="text-violet">Intelligent System</span>
-      </Link>
+      </SectionLink>
       <nav className="hidden items-center gap-6.5 min-[781px]:flex">
         {marketingNav.map((item) => (
-          <Link
+          <SectionLink
             key={item.label}
-            href={navHref(pathname, item)}
+            href={item.href}
             className="font-semibold text-foreground"
           >
             {item.label}
-          </Link>
+          </SectionLink>
         ))}
-        <Button asChild variant="outline" className="  h-9 rounded-lg px-6 font-bold">
-          <Link href="/login">Log in</Link>
+        <Button asChild variant="outline" className="h-9 rounded-lg px-6 font-bold">
+          <a href="/login">Log in</a>
         </Button>
       </nav>
       <Sheet>
@@ -71,17 +63,17 @@ export function SiteHeader() {
           <div className="flex flex-col gap-3 px-4">
             {marketingNav.map((item) => (
               <SheetClose asChild key={item.label}>
-                <Link
-                  href={navHref(pathname, item)}
+                <SectionLink
+                  href={item.href}
                   className={cn("rounded-lg px-2 py-2 font-semibold")}
                 >
                   {item.label}
-                </Link>
+                </SectionLink>
               </SheetClose>
             ))}
             <SheetClose asChild>
               <Button asChild variant="outline" className="h-12 font-bold">
-                <Link href="/login">Log in</Link>
+                <a href="/login">Log in</a>
               </Button>
             </SheetClose>
             <OpenAccessButton className="h-12 font-bold">

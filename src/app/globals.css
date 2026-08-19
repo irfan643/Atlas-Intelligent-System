@@ -131,7 +131,8 @@
     @apply bg-background font-sans text-foreground;
   }
   html {
-    @apply font-sans;
+    @apply scroll-smooth font-sans;
+    scroll-padding-top: 5rem;
   }
 }
 

@@ -1,14 +1,14 @@
-import { marketingGutter } from "@/lib/constants";
+import { marketingGutter, marketingScreenSection } from "@/lib/constants";
 
 import { Eyebrow } from "./eyebrow";
 
 export function AboutContent() {
   return (
-    <section className={`py-[84px] ${marketingGutter}`}>
+    <section id="about" className={`${marketingGutter} ${marketingScreenSection}`}>
       <Eyebrow>About</Eyebrow>
-      <h1 className="mt-3 max-w-[720px] font-heading text-[42px] tracking-[-0.04em]">
+      <h2 className="mt-3 max-w-[720px] font-heading text-[42px] tracking-[-0.04em]">
         Built for teams that need secure, intelligent learning systems.
-      </h1>
+      </h2>
       <div className="mt-8 max-w-2xl space-y-4 text-lg text-muted-foreground">
         <p>
           Atlas Intelligent System brings together secure learning, intelligent

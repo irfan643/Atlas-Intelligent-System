@@ -1,16 +1,18 @@
-import Link from "next/link";
 import { Play } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { OpenAccessButton } from "@/features/access-request/open-access-button";
-
+import { SectionLink } from "@/features/marketing/section-link";
 import { marketingGutter } from "@/lib/constants";
 
 import { Eyebrow } from "./eyebrow";
 
 export function Hero() {
   return (
-    <section className={`grid min-h-[600px] items-center gap-12 bg-linear-to-br from-white via-[#f7fbff] to-[#fbf9ff] py-[70px] max-[780px]:min-h-0 max-[780px]:grid-cols-1 max-[780px]:pt-12 min-[781px]:grid-cols-[1.05fr_0.95fr] ${marketingGutter}`}>
+    <section
+      id="hero"
+      className={`grid min-h-[calc(100dvh-4.5rem)] scroll-mt-[4.5rem] items-center gap-12 bg-linear-to-br from-white via-[#f7fbff] to-[#fbf9ff] py-[70px] max-[780px]:grid-cols-1 max-[780px]:py-12 min-[781px]:grid-cols-[1.05fr_0.95fr] ${marketingGutter}`}
+    >
       <div>
         <Eyebrow>Intelligent technology for learning and organizations</Eyebrow>
         <h1 className="mt-4 mb-5.5 font-heading text-[clamp(48px,6vw,78px)] leading-[0.96] font-semibold tracking-[-0.06em]">
@@ -30,7 +32,7 @@ export function Hero() {
             variant="outline"
             className="h-12 rounded-xl px-5 text-base font-bold"
           >
-            <Link href="#solutions">Explore solutions</Link>
+            <SectionLink href="/#solutions">Explore solutions</SectionLink>
           </Button>
         </div>
         <p className="mt-4 text-sm text-muted-foreground">
