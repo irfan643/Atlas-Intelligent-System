@@ -8,17 +8,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/lib/api/client";
 
+import { AuthPasswordField } from "./auth-password-field";
 import { loginSchema, type LoginInput, type PublicUser } from "./schema";
 
 export function LoginForm() {
@@ -45,62 +39,56 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="text-2xl">Log in</CardTitle>
-        <CardDescription>
-          Sign in with the email and password you used to register.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="space-y-2">
-            <Label htmlFor="login-email">Email</Label>
-            <Input
-              id="login-email"
-              type="email"
-              className="h-12 px-3.5"
-              placeholder="you@example.com"
-              autoComplete="email"
-              {...form.register("email")}
-            />
-            {form.formState.errors.email ? (
-              <p className="text-sm text-destructive">
-                {form.formState.errors.email.message}
-              </p>
-            ) : null}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="login-password">Password</Label>
-            <Input
-              id="login-password"
-              type="password"
-              className="h-12 px-3.5"
-              placeholder="••••••••"
-              autoComplete="current-password"
-              {...form.register("password")}
-            />
-            {form.formState.errors.password ? (
-              <p className="text-sm text-destructive">
-                {form.formState.errors.password.message}
-              </p>
-            ) : null}
-          </div>
-          <Button
-            type="submit"
-            className="h-12 w-full font-bold"
-            disabled={form.formState.isSubmitting}
-          >
-            {form.formState.isSubmitting ? "Signing in..." : "Log in"}
-          </Button>
-          <p className="text-center text-sm text-muted-foreground">
-            Need an account?{" "}
-            <Link href="/register" className="font-semibold text-foreground">
-              Register
-            </Link>
-          </p>
-        </form>
-      </CardContent>
-    </Card>
+    <div className="rounded-lg border bg-card p-4 font-sans text-foreground shadow-[0_26px_70px_#31527914]">
+      <div className="space-y-1">
+        <h1 className="font-heading text-2xl leading-tight font-semibold tracking-tight">
+          Welcome back
+        </h1>
+        <p className="text-sm leading-6 font-normal text-muted-foreground">
+          Sign in to continue to Learning and Production.
+        </p>
+      </div>
+      <form className="mt-5 space-y-3.5" onSubmit={form.handleSubmit(onSubmit)}>
+        <div className="space-y-1.5">
+          <Label htmlFor="login-email" className="text-sm font-medium">
+            Email
+          </Label>
+          <Input
+            id="login-email"
+            type="email"
+            className="h-11 rounded-md bg-background px-3.5 text-sm"
+            placeholder="you@example.com"
+            autoComplete="email"
+            aria-invalid={Boolean(form.formState.errors.email)}
+            {...form.register("email")}
+          />
+          {form.formState.errors.email ? (
+            <p className="text-sm leading-5 font-normal text-destructive">
+              {form.formState.errors.email.message}
+            </p>
+          ) : null}
+        </div>
+        <AuthPasswordField
+          id="login-password"
+          label="Password"
+          autoComplete="current-password"
+          error={form.formState.errors.password?.message}
+          {...form.register("password")}
+        />
+        <Button
+          type="submit"
+          className="h-11 w-full rounded-md text-sm font-medium"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? "Signing in..." : "Continue"}
+        </Button>
+      </form>
+      <p className="mt-4 text-center text-sm leading-6 font-normal text-muted-foreground">
+        Need an account?{" "}
+        <Link href="/register" className="font-medium text-primary">
+          Register
+        </Link>
+      </p>
+    </div>
   );
 }

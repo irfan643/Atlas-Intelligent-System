@@ -29,7 +29,7 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-between border-b bg-background/95 px-[clamp(22px,5vw,84px)] py-5 backdrop-blur">
+    <header className="sticky top-0 z-40 flex items-center justify-between border-b bg-background/95 px-[clamp(22px,5vw,84px)] py-3 px-12 backdrop-blur">
       <Link href="/" className="text-2xl font-extrabold tracking-[-0.04em]">
         {site.name}{" "}
         <span className="text-violet">Intelligent System</span>
@@ -44,7 +44,7 @@ export function SiteHeader() {
             {item.label}
           </Link>
         ))}
-        <Button asChild variant="outline" className="h-12 rounded-xl px-5 font-bold">
+        <Button asChild variant="outline" className="  h-9 rounded-lg px-6 font-bold">
           <Link href="/login">Log in</Link>
         </Button>
       </nav>

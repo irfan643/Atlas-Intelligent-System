@@ -13,7 +13,7 @@ export const marketingNav = [
 ] as const;
 
 export const appNav = [
-  { href: "/dashboard", label: "Dashboard", enabled: true },
-  { href: "/dashboard", label: "Learning", enabled: false },
-  { href: "/dashboard", label: "Production", enabled: false },
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/dashboard/learning", label: "Learning" },
+  { href: "/dashboard/production", label: "Production" },
 ] as const;

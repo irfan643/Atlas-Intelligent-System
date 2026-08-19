@@ -77,12 +77,12 @@
   --radius: 0.75rem;
   --violet: #6546d8;
   --navy: #102a43;
-  --sidebar: #f7f9fc;
+  --sidebar: #ffffff;
   --sidebar-foreground: #172033;
   --sidebar-primary: #1677ff;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #eef3fb;
-  --sidebar-accent-foreground: #102a43;
+  --sidebar-accent: #f7f9fc;
+  --sidebar-accent-foreground: #172033;
   --sidebar-border: #dfe6ee;
   --sidebar-ring: #1677ff;
 }
@@ -128,7 +128,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-foreground;
   }
   html {
     @apply font-sans;
