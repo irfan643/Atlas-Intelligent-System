@@ -8,9 +8,9 @@ export const doctorFieldTextarea =
 export const doctorFieldSelect =
   "border-input bg-background h-14 w-full rounded-md border px-4 text-base";
 
-/** Compact centered dialog — not full viewport height */
+/** Compact centered dialog — slightly rounded, scrollbar hidden */
 export const doctorDialogContent =
-  "max-h-[min(85vh,720px)] w-[calc(100%-2rem)] gap-5 overflow-y-auto rounded-md p-6 sm:max-w-lg sm:p-7";
+  "max-h-[min(85vh,720px)] w-[calc(100%-2rem)] gap-5 overflow-y-auto rounded-xl p-6 sm:max-w-lg sm:p-7 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";
 
 export const doctorDialogTitle =
   "pr-8 text-xl font-semibold tracking-tight";
