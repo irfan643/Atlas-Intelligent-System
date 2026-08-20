@@ -1,17 +1,29 @@
+import { redirect } from "next/navigation";
+
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { WorkspaceHeader } from "@/components/layout/workspace-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getSession } from "@/lib/session";
 
-export default function AppLayout({
+export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/login");
+  }
+
   return (
     <TooltipProvider>
       <SidebarProvider className="min-h-full flex-1">
-        <AppSidebar />
+        <AppSidebar
+          teacherName={session.name}
+          teacherEmail={session.email}
+        />
         <SidebarInset>
           <WorkspaceHeader />
           <div className="flex-1 px-6 py-6">{children}</div>

@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -30,6 +29,7 @@ export function LoginForm() {
       const { data } = await api.post<{ user: PublicUser }>("/auth/login", values);
       toast.success(`Welcome back, ${data.user.name}.`);
       router.push("/dashboard");
+      router.refresh();
     } catch (error) {
       const message = axios.isAxiosError(error)
         ? (error.response?.data as { error?: string } | undefined)?.error
@@ -45,7 +45,7 @@ export function LoginForm() {
           Welcome back
         </h1>
         <p className="text-sm leading-6 font-normal text-muted-foreground">
-          Sign in to continue to Learning and Production.
+          Sign in to open your teacher dashboard.
         </p>
       </div>
       <form className="mt-5 space-y-3.5" onSubmit={form.handleSubmit(onSubmit)}>
@@ -57,7 +57,7 @@ export function LoginForm() {
             id="login-email"
             type="email"
             className="h-11 rounded-md bg-background px-3.5 text-sm"
-            placeholder="you@example.com"
+            placeholder="teacher@atlas.local"
             autoComplete="email"
             aria-invalid={Boolean(form.formState.errors.email)}
             {...form.register("email")}
@@ -83,12 +83,6 @@ export function LoginForm() {
           {form.formState.isSubmitting ? "Signing in..." : "Continue"}
         </Button>
       </form>
-      <p className="mt-4 text-center text-sm leading-6 font-normal text-muted-foreground">
-        Need an account?{" "}
-        <Link href="/register" className="font-medium text-primary">
-          Register
-        </Link>
-      </p>
     </div>
   );
 }

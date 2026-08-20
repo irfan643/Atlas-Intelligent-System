@@ -1,11 +1,5 @@
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-import { LearningContent } from "@/features/dashboard/learning-content";
-
-export const metadata: Metadata = {
-  title: "Learning",
-};
-
-export default function LearningPage() {
-  return <LearningContent />;
+export default function LearningRedirectPage() {
+  redirect("/dashboard/courses");
 }

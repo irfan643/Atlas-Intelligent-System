@@ -7,11 +7,58 @@ datasource db {
   url      = env("MONGODB_URI")
 }
 
+enum Role {
+  TEACHER
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum LectureStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum SourceType {
+  YOUTUBE
+  LINK
+}
+
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String   @unique
   password  String
+  role      Role     @default(TEACHER)
+  courses   Course[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  status      CourseStatus @default(DRAFT)
+  teacherId   String       @db.ObjectId
+  teacher     User         @relation(fields: [teacherId], references: [id])
+  lectures    Lecture[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Lecture {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  sourceUrl   String
+  sourceType  SourceType    @default(LINK)
+  order       Int           @default(0)
+  status      LectureStatus @default(DRAFT)
+  courseId    String        @db.ObjectId
+  course      Course        @relation(fields: [courseId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }

@@ -11,11 +11,13 @@ function toPublicUser(user: {
   id: string;
   name: string;
   email: string;
+  role: "TEACHER";
 }): PublicUser {
   return {
     id: user.id,
     name: user.name,
     email: user.email,
+    role: user.role,
   };
 }
 
@@ -40,11 +42,13 @@ export async function registerUser(
         name: input.name,
         email: input.email.toLowerCase(),
         password: passwordHash,
+        role: "TEACHER",
       },
       select: {
         id: true,
         name: true,
         email: true,
+        role: true,
       },
     });
 
@@ -64,6 +68,13 @@ export async function registerUser(
 export async function loginUser(input: LoginInput): Promise<PublicUser> {
   const user = await prisma.user.findUnique({
     where: { email: input.email.toLowerCase() },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      password: true,
+      role: true,
+    },
   });
 
   if (!user) {
@@ -76,5 +87,10 @@ export async function loginUser(input: LoginInput): Promise<PublicUser> {
     throw new AuthError("Invalid email or password.", 401);
   }
 
-  return toPublicUser(user);
+  return toPublicUser({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  });
 }

@@ -1,11 +1,5 @@
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-import { ProductionContent } from "@/features/dashboard/production-content";
-
-export const metadata: Metadata = {
-  title: "Production",
-};
-
-export default function DashboardProductionPage() {
-  return <ProductionContent />;
+export default function ProductionRedirectPage() {
+  redirect("/dashboard/courses");
 }

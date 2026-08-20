@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { BookOpen, LayoutDashboard, Workflow } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { BookOpen, LayoutDashboard, LogOut } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -16,28 +17,45 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { api } from "@/lib/api/client";
 import { appNav, site } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 const navIcons = {
   Dashboard: LayoutDashboard,
-  Learning: BookOpen,
-  Production: Workflow,
+  "My Courses": BookOpen,
 } as const;
 
-export function AppSidebar() {
+export function AppSidebar({
+  teacherName,
+  teacherEmail,
+}: {
+  teacherName?: string;
+  teacherEmail?: string;
+}) {
   const pathname = usePathname();
+  const router = useRouter();
   const { setOpenMobile } = useSidebar();
+
+  async function handleLogout() {
+    try {
+      await api.post("/auth/logout");
+    } catch {
+      // still clear local navigation
+    }
+    router.push("/login");
+    router.refresh();
+  }
 
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarHeader className="h-14 justify-center border-b px-4 py-0">
-        <Link href="/" className="flex min-w-0 flex-col justify-center gap-0.5">
+        <Link href="/dashboard" className="flex min-w-0 flex-col justify-center gap-0.5">
           <span className="text-lg leading-none font-extrabold tracking-[-0.04em]">
             {site.name}
           </span>
           <span className="text-xs font-semibold text-violet">
-            Intelligent System
+            Teacher workspace
           </span>
         </Link>
       </SidebarHeader>
@@ -47,7 +65,11 @@ export function AppSidebar() {
             <SidebarMenu className="gap-0.5">
               {appNav.map((item) => {
                 const Icon = navIcons[item.label];
-                const isActive = pathname === item.href;
+                const isActive =
+                  item.href === "/dashboard"
+                    ? pathname === item.href
+                    : pathname === item.href ||
+                      pathname.startsWith(`${item.href}/`);
 
                 return (
                   <SidebarMenuItem key={item.href}>
@@ -56,7 +78,7 @@ export function AppSidebar() {
                       isActive={isActive}
                       tooltip={item.label}
                       className={cn(
-                        " rounded-sm px-2 text-sm font-semibold",
+                        "rounded-sm px-2 text-sm font-semibold",
                         "hover:bg-muted hover:text-foreground",
                         "data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:hover:bg-primary/90 data-[active=true]:hover:text-primary-foreground",
                       )}
@@ -76,8 +98,26 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t px-4 py-3 text-xs text-muted-foreground">
-        Authentication is not connected yet.
+      <SidebarFooter className="space-y-3 border-t px-4 py-3">
+        {teacherName ? (
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold">{teacherName}</p>
+            {teacherEmail ? (
+              <p className="truncate text-xs text-muted-foreground">
+                {teacherEmail}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
+        <Button
+          variant="outline"
+          size="sm"
+          className="w-full justify-start gap-2"
+          onClick={handleLogout}
+        >
+          <LogOut className="size-4" />
+          Sign out
+        </Button>
       </SidebarFooter>
     </Sidebar>
   );

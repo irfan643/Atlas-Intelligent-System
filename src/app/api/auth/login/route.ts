@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { AuthError, loginUser } from "@/features/auth/service";
 import { loginSchema } from "@/features/auth/schema";
+import { createSession } from "@/lib/session";
 
 export async function POST(request: Request) {
   try {
@@ -16,6 +17,13 @@ export async function POST(request: Request) {
     }
 
     const user = await loginUser(parsed.data);
+
+    await createSession({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
 
     return NextResponse.json({ user });
   } catch (error) {
