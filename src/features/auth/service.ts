@@ -11,13 +11,13 @@ function toPublicUser(user: {
   id: string;
   name: string;
   email: string;
-  role: "TEACHER";
+  role: string;
 }): PublicUser {
   return {
     id: user.id,
     name: user.name,
     email: user.email,
-    role: user.role,
+    role: "DOCTOR",
   };
 }
 
@@ -42,7 +42,7 @@ export async function registerUser(
         name: input.name,
         email: input.email.toLowerCase(),
         password: passwordHash,
-        role: "TEACHER",
+        role: "DOCTOR",
       },
       select: {
         id: true,
@@ -87,10 +87,5 @@ export async function loginUser(input: LoginInput): Promise<PublicUser> {
     throw new AuthError("Invalid email or password.", 401);
   }
 
-  return toPublicUser({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-  });
+  return toPublicUser(user);
 }

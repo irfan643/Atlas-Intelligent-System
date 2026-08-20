@@ -8,7 +8,7 @@ datasource db {
 }
 
 enum Role {
-  TEACHER
+  DOCTOR
 }
 
 enum CourseStatus {
@@ -31,22 +31,23 @@ model User {
   name      String
   email     String   @unique
   password  String
-  role      Role     @default(TEACHER)
+  role      Role     @default(DOCTOR)
   courses   Course[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Course {
-  id          String       @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  status      CourseStatus @default(DRAFT)
-  teacherId   String       @db.ObjectId
-  teacher     User         @relation(fields: [teacherId], references: [id])
-  lectures    Lecture[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id              String       @id @default(auto()) @map("_id") @db.ObjectId
+  title           String
+  description     String
+  status          CourseStatus @default(DRAFT)
+  enrollmentCount Int          @default(0)
+  doctorId        String       @db.ObjectId
+  doctor          User         @relation(fields: [doctorId], references: [id])
+  lectures        Lecture[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 }
 
 model Lecture {

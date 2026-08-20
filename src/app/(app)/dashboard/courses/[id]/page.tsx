@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
-import { CourseWorkspace } from "@/features/teacher/course-workspace";
-import { getTeacherCourse } from "@/features/teacher/actions";
+import { CourseDashboard } from "@/features/doctor/course-dashboard";
+import { DoctorError, getDoctorCourse } from "@/features/doctor/service";
 import { getSession } from "@/lib/session";
 
 export const metadata: Metadata = {
@@ -21,11 +21,14 @@ export default async function CourseDetailPage({
   }
 
   const { id } = await params;
-  const course = await getTeacherCourse(id);
 
-  if (!course) {
-    notFound();
+  try {
+    const course = await getDoctorCourse(session.id, id);
+    return <CourseDashboard course={course} />;
+  } catch (error) {
+    if (error instanceof DoctorError && error.status === 404) {
+      notFound();
+    }
+    throw error;
   }
-
-  return <CourseWorkspace course={course} />;
 }

@@ -14,7 +14,8 @@ type AuthPasswordFieldProps = {
   error?: string;
   autoComplete?: string;
   placeholder?: string;
-} & Omit<React.ComponentProps<typeof Input>, "id" | "type" | "className">;
+  className?: string;
+} & Omit<React.ComponentProps<typeof Input>, "id" | "type">;
 
 export function AuthPasswordField({
   id,
@@ -22,13 +23,14 @@ export function AuthPasswordField({
   error,
   autoComplete,
   placeholder = "••••••••",
+  className,
   ...props
 }: AuthPasswordFieldProps) {
   const [visible, setVisible] = useState(false);
 
   return (
-    <div className="space-y-1.5">
-      <Label htmlFor={id} className="text-sm font-medium">
+    <div className="space-y-2">
+      <Label htmlFor={id} className="text-sm font-semibold">
         {label}
       </Label>
       <div className="relative">
@@ -38,7 +40,10 @@ export function AuthPasswordField({
           autoComplete={autoComplete}
           placeholder={placeholder}
           aria-invalid={Boolean(error)}
-          className="h-11 rounded-md bg-background pr-11 pl-3.5 text-sm"
+          className={cn(
+            "h-12 rounded-md bg-background pr-11 pl-3.5 text-base",
+            className,
+          )}
           {...props}
         />
         <Button

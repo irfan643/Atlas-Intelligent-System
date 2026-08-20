@@ -21,8 +21,8 @@ export default async function AppLayout({
     <TooltipProvider>
       <SidebarProvider className="min-h-full flex-1">
         <AppSidebar
-          teacherName={session.name}
-          teacherEmail={session.email}
+          doctorName={session.name}
+          doctorEmail={session.email}
         />
         <SidebarInset>
           <WorkspaceHeader />

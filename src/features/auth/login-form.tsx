@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -45,7 +46,7 @@ export function LoginForm() {
           Welcome back
         </h1>
         <p className="text-sm leading-6 font-normal text-muted-foreground">
-          Sign in to open your teacher dashboard.
+          Sign in to open your doctor workspace.
         </p>
       </div>
       <form className="mt-5 space-y-3.5" onSubmit={form.handleSubmit(onSubmit)}>
@@ -57,7 +58,7 @@ export function LoginForm() {
             id="login-email"
             type="email"
             className="h-11 rounded-md bg-background px-3.5 text-sm"
-            placeholder="teacher@atlas.local"
+            placeholder="you@example.com"
             autoComplete="email"
             aria-invalid={Boolean(form.formState.errors.email)}
             {...form.register("email")}
@@ -83,6 +84,12 @@ export function LoginForm() {
           {form.formState.isSubmitting ? "Signing in..." : "Continue"}
         </Button>
       </form>
+      <p className="mt-4 text-center text-sm leading-6 font-normal text-muted-foreground">
+        New doctor?{" "}
+        <Link href="/register" className="font-medium text-primary">
+          Create an account
+        </Link>
+      </p>
     </div>
   );
 }

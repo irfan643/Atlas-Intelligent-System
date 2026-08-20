@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import { TeacherDashboardOverview } from "@/features/teacher/teacher-dashboard";
-import { getTeacherDashboardStats } from "@/features/teacher/actions";
+import { DoctorDashboardOverview } from "@/features/doctor/doctor-dashboard";
+import { getDoctorDashboard } from "@/features/doctor/service";
 import { getSession } from "@/lib/session";
 
 export const metadata: Metadata = {
@@ -16,15 +16,14 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  const stats = await getTeacherDashboardStats();
+  const data = await getDoctorDashboard(session.id);
 
   return (
-    <TeacherDashboardOverview
-      teacherName={stats.session.name}
-      courseCount={stats.courseCount}
-      lectureCount={stats.lectureCount}
-      publishedCount={stats.publishedCount}
-      courses={stats.courses}
+    <DoctorDashboardOverview
+      doctorName={session.name}
+      publishedCount={data.publishedCount}
+      pendingCount={data.pendingCount}
+      latestCourses={data.latestCourses}
     />
   );
 }

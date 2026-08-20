@@ -35,6 +35,7 @@ export function RegisterForm() {
       );
       toast.success(`Account created for ${data.user.name}.`);
       router.push("/dashboard");
+      router.refresh();
     } catch (error) {
       const message = axios.isAxiosError(error)
         ? (error.response?.data as { error?: string } | undefined)?.error
@@ -50,7 +51,7 @@ export function RegisterForm() {
           Create your account
         </h1>
         <p className="text-sm leading-6 font-normal text-muted-foreground">
-          Register to open the Atlas workspace for learning and production.
+          Register to open your doctor workspace and manage your own courses.
         </p>
       </div>
       <form className="mt-5 space-y-3.5" onSubmit={form.handleSubmit(onSubmit)}>

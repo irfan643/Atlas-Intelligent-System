@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 import { AuthError, registerUser } from "@/features/auth/service";
 import { registerSchema } from "@/features/auth/schema";
+import { SESSION_COOKIE } from "@/lib/session-cookie";
+import { encodeSession } from "@/lib/session-token";
 
 export async function POST(request: Request) {
   try {
@@ -17,11 +19,31 @@ export async function POST(request: Request) {
 
     const user = await registerUser(parsed.data);
 
-    return NextResponse.json({ user }, { status: 201 });
+    const response = NextResponse.json({ user }, { status: 201 });
+    response.cookies.set(
+      SESSION_COOKIE,
+      await encodeSession({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      }),
+      {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 14,
+      },
+    );
+
+    return response;
   } catch (error) {
     if (error instanceof AuthError) {
       return NextResponse.json({ error: error.message }, { status: error.status });
     }
+
+    console.error("[auth/register]", error);
 
     return NextResponse.json(
       { error: "Unable to create the account right now." },

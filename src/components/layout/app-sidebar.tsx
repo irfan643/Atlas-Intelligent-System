@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { BookOpen, LayoutDashboard, LogOut } from "lucide-react";
+import { BookOpen, LayoutDashboard, LogOut, UserRound } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,14 +24,15 @@ import { cn } from "@/lib/utils";
 const navIcons = {
   Dashboard: LayoutDashboard,
   "My Courses": BookOpen,
+  Profile: UserRound,
 } as const;
 
 export function AppSidebar({
-  teacherName,
-  teacherEmail,
+  doctorName,
+  doctorEmail,
 }: {
-  teacherName?: string;
-  teacherEmail?: string;
+  doctorName?: string;
+  doctorEmail?: string;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -41,7 +42,7 @@ export function AppSidebar({
     try {
       await api.post("/auth/logout");
     } catch {
-      // still clear local navigation
+      // still navigate
     }
     router.push("/login");
     router.refresh();
@@ -50,12 +51,15 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarHeader className="h-14 justify-center border-b px-4 py-0">
-        <Link href="/dashboard" className="flex min-w-0 flex-col justify-center gap-0.5">
+        <Link
+          href="/dashboard"
+          className="flex min-w-0 flex-col justify-center gap-0.5"
+        >
           <span className="text-lg leading-none font-extrabold tracking-[-0.04em]">
             {site.name}
           </span>
           <span className="text-xs font-semibold text-violet">
-            Teacher workspace
+            Doctor workspace
           </span>
         </Link>
       </SidebarHeader>
@@ -99,12 +103,12 @@ export function AppSidebar({
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="space-y-3 border-t px-4 py-3">
-        {teacherName ? (
+        {doctorName ? (
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">{teacherName}</p>
-            {teacherEmail ? (
+            <p className="truncate text-sm font-semibold">{doctorName}</p>
+            {doctorEmail ? (
               <p className="truncate text-xs text-muted-foreground">
-                {teacherEmail}
+                {doctorEmail}
               </p>
             ) : null}
           </div>
