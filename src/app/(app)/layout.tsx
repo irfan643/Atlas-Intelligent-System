@@ -13,7 +13,7 @@ export default async function AppLayout({
 }) {
   const session = await getSession();
 
-  if (!session) {
+  if (!session || session.role !== "DOCTOR") {
     redirect("/login");
   }
 

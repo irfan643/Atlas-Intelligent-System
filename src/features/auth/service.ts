@@ -17,7 +17,7 @@ function toPublicUser(user: {
     id: user.id,
     name: user.name,
     email: user.email,
-    role: "DOCTOR",
+    role: user.role === "STUDENT" ? "STUDENT" : "DOCTOR",
   };
 }
 
@@ -35,6 +35,7 @@ export async function registerUser(
   input: RegisterInput,
 ): Promise<PublicUser> {
   const passwordHash = await hash(input.password, SALT_ROUNDS);
+  const role = input.role === "STUDENT" ? "STUDENT" : "DOCTOR";
 
   try {
     const user = await prisma.user.create({
@@ -42,7 +43,7 @@ export async function registerUser(
         name: input.name,
         email: input.email.toLowerCase(),
         password: passwordHash,
-        role: "DOCTOR",
+        role,
       },
       select: {
         id: true,

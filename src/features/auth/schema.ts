@@ -11,6 +11,7 @@ export const registerSchema = z
     email: z.email("Please enter a valid email."),
     password: z.string().min(8, "Password must be at least 8 characters."),
     confirmPassword: z.string().min(1, "Please confirm your password."),
+    role: z.enum(["DOCTOR", "STUDENT"]),
   })
   .refine((values) => values.password === values.confirmPassword, {
     message: "Passwords do not match.",
@@ -24,5 +25,5 @@ export type PublicUser = {
   id: string;
   name: string;
   email: string;
-  role: "DOCTOR";
+  role: "DOCTOR" | "STUDENT";
 };

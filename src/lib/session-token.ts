@@ -4,7 +4,7 @@ export type SessionUser = {
   id: string;
   name: string;
   email: string;
-  role: "DOCTOR";
+  role: "DOCTOR" | "STUDENT";
 };
 
 function sessionSecret() {
@@ -81,7 +81,12 @@ export async function decodeSession(token: string): Promise<SessionUser | null> 
     const json = new TextDecoder().decode(fromBase64Url(payload));
     const user = JSON.parse(json) as SessionUser;
 
-    if (!user?.id || !user?.email || !user?.name || user.role !== "DOCTOR") {
+    if (
+      !user?.id ||
+      !user?.email ||
+      !user?.name ||
+      (user.role !== "DOCTOR" && user.role !== "STUDENT")
+    ) {
       return null;
     }
 

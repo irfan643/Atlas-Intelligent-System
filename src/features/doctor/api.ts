@@ -6,7 +6,7 @@ import { getSession } from "@/lib/session";
 export async function requireApiDoctor() {
   const session = await getSession();
 
-  if (!session) {
+  if (!session || session.role !== "DOCTOR") {
     return {
       session: null,
       error: NextResponse.json({ error: "Unauthorized." }, { status: 401 }),

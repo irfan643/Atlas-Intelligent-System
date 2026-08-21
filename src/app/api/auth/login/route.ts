@@ -20,22 +20,25 @@ export async function POST(request: Request) {
     const user = await loginUser(parsed.data);
 
     const response = NextResponse.json({ user });
-    response.cookies.set(
-      SESSION_COOKIE,
-      await encodeSession({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      }),
-      {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-        maxAge: 60 * 60 * 24 * 14,
-      },
-    );
+
+    if (user.role === "DOCTOR") {
+      response.cookies.set(
+        SESSION_COOKIE,
+        await encodeSession({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        }),
+        {
+          httpOnly: true,
+          sameSite: "lax",
+          secure: process.env.NODE_ENV === "production",
+          path: "/",
+          maxAge: 60 * 60 * 24 * 14,
+        },
+      );
+    }
 
     return response;
   } catch (error) {

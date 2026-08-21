@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 import { CourseDashboard } from "@/features/doctor/course-dashboard";
-import { DoctorError, getDoctorCourse } from "@/features/doctor/service";
+import {
+  DoctorError,
+  getDoctorCourse,
+  listCourseStudents,
+} from "@/features/doctor/service";
 import { getSession } from "@/lib/session";
 
 export const metadata: Metadata = {
@@ -16,15 +20,18 @@ export default async function CourseDetailPage({
 }) {
   const session = await getSession();
 
-  if (!session) {
+  if (!session || session.role !== "DOCTOR") {
     redirect("/login");
   }
 
   const { id } = await params;
 
   try {
-    const course = await getDoctorCourse(session.id, id);
-    return <CourseDashboard course={course} />;
+    const [course, students] = await Promise.all([
+      getDoctorCourse(session.id, id),
+      listCourseStudents(session.id, id),
+    ]);
+    return <CourseDashboard course={course} students={students} />;
   } catch (error) {
     if (error instanceof DoctorError && error.status === 404) {
       notFound();

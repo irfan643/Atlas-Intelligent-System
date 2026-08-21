@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { FilePenLine, Globe } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
@@ -50,11 +51,19 @@ export function CourseStatusToggle({
       disabled={pending}
       onClick={onToggle}
     >
-      {pending
-        ? "Updating..."
-        : status === "PUBLISHED"
-          ? "Set to draft"
-          : "Publish"}
+      {pending ? (
+        "Updating..."
+      ) : status === "PUBLISHED" ? (
+        <>
+          <FilePenLine />
+          Set to draft
+        </>
+      ) : (
+        <>
+          <Globe />
+          Publish
+        </>
+      )}
     </Button>
   );
 }

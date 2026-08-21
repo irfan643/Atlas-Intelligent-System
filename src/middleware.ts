@@ -9,12 +9,10 @@ export async function middleware(request: NextRequest) {
   const session = token ? await decodeSession(token) : null;
   const { pathname } = request.nextUrl;
 
-  // Clear stale/invalid cookies (e.g. old TEACHER sessions) to avoid login↔dashboard loops.
   if (token && !session) {
-    const response =
-      pathname.startsWith("/dashboard")
-        ? NextResponse.redirect(new URL("/login", request.url))
-        : NextResponse.next();
+    const response = pathname.startsWith("/dashboard")
+      ? NextResponse.redirect(new URL("/login", request.url))
+      : NextResponse.next();
     response.cookies.set(SESSION_COOKIE, "", {
       httpOnly: true,
       path: "/",
@@ -23,14 +21,40 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  if (pathname.startsWith("/dashboard") && !session) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("next", pathname);
-    return NextResponse.redirect(loginUrl);
+  if (pathname.startsWith("/dashboard")) {
+    if (!session) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("next", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    if (session.role !== "DOCTOR") {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("notice", "student-workspace");
+      const response = NextResponse.redirect(loginUrl);
+      response.cookies.set(SESSION_COOKIE, "", {
+        httpOnly: true,
+        path: "/",
+        maxAge: 0,
+      });
+      return response;
+    }
   }
 
   if ((pathname === "/login" || pathname === "/register") && session) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    if (session.role === "DOCTOR") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
+
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("notice", "student-workspace");
+    const response = NextResponse.redirect(loginUrl);
+    response.cookies.set(SESSION_COOKIE, "", {
+      httpOnly: true,
+      path: "/",
+      maxAge: 0,
+    });
+    return response;
   }
 
   return NextResponse.next();

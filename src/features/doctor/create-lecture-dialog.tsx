@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -67,7 +68,10 @@ export function CreateLectureDialog({ courseId }: { courseId: string }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className={doctorActionButton}>Add lecture</Button>
+        <Button className={doctorActionButton}>
+          <Plus />
+          Add lecture
+        </Button>
       </DialogTrigger>
       <DialogContent className={doctorDialogContent}>
         <DialogHeader className="space-y-1.5">

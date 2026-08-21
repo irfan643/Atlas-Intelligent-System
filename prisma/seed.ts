@@ -5,36 +5,120 @@ const prisma = new PrismaClient();
 
 const DOCTOR_EMAIL = "doctor@atlas.local";
 const DOCTOR_PASSWORD = "Doctor123!";
+const STUDENT_PASSWORD = "Student123!";
 
 async function main() {
-  const password = await hash(DOCTOR_PASSWORD, 12);
+  const doctorPassword = await hash(DOCTOR_PASSWORD, 12);
+  const studentPassword = await hash(STUDENT_PASSWORD, 12);
 
   const doctor = await prisma.user.upsert({
     where: { email: DOCTOR_EMAIL },
     update: {
       name: "Atlas Doctor",
-      password,
+      password: doctorPassword,
       role: "DOCTOR",
     },
     create: {
       name: "Atlas Doctor",
       email: DOCTOR_EMAIL,
-      password,
+      password: doctorPassword,
       role: "DOCTOR",
     },
   });
 
-  // Clear any previous sample courses/lectures for this doctor (and legacy teacherId data if present).
+  await prisma.lectureProgress.deleteMany({});
+  await prisma.enrollment.deleteMany({});
   await prisma.lecture.deleteMany({});
   await prisma.course.deleteMany({});
 
-  // Migrate old TEACHER accounts to DOCTOR where possible via upsert above only.
-  // Do not seed courses — new doctors start empty.
+  const course = await prisma.course.create({
+    data: {
+      title: "Introduction to Clinical Skills",
+      description:
+        "A sample course covering foundational clinical skills, patient communication, and basic assessment techniques for demo progress tracking.",
+      status: "PUBLISHED",
+      doctorId: doctor.id,
+      enrollmentCount: 3,
+      lectures: {
+        create: [
+          {
+            title: "Patient Communication Basics",
+            description:
+              "Core communication techniques for effective patient interviews.",
+            sourceUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            sourceType: "YOUTUBE",
+            order: 1,
+            status: "PUBLISHED",
+          },
+          {
+            title: "Vital Signs Overview",
+            description:
+              "How to measure and interpret pulse, blood pressure, and temperature.",
+            sourceUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            sourceType: "YOUTUBE",
+            order: 2,
+            status: "PUBLISHED",
+          },
+          {
+            title: "Clinical Documentation",
+            description:
+              "Writing clear notes and summarizing encounters accurately.",
+            sourceUrl: "https://example.com/clinical-docs",
+            sourceType: "LINK",
+            order: 3,
+            status: "PUBLISHED",
+          },
+        ],
+      },
+    },
+    include: { lectures: { orderBy: { order: "asc" } } },
+  });
 
-  console.log("Seeded doctor account (no courses):");
-  console.log(`  email:    ${DOCTOR_EMAIL}`);
-  console.log(`  password: ${DOCTOR_PASSWORD}`);
-  console.log(`  doctorId: ${doctor.id}`);
+  const studentSpecs = [
+    { name: "Student One", email: "student1@atlas.local", completeCount: 0 },
+    { name: "Student Two", email: "student2@atlas.local", completeCount: 1 },
+    { name: "Student Three", email: "student3@atlas.local", completeCount: 3 },
+  ] as const;
+
+  for (const spec of studentSpecs) {
+    const student = await prisma.user.upsert({
+      where: { email: spec.email },
+      update: {
+        name: spec.name,
+        password: studentPassword,
+        role: "STUDENT",
+      },
+      create: {
+        name: spec.name,
+        email: spec.email,
+        password: studentPassword,
+        role: "STUDENT",
+      },
+    });
+
+    await prisma.enrollment.create({
+      data: {
+        userId: student.id,
+        courseId: course.id,
+      },
+    });
+
+    const lecturesToComplete = course.lectures.slice(0, spec.completeCount);
+    for (const lecture of lecturesToComplete) {
+      await prisma.lectureProgress.create({
+        data: {
+          userId: student.id,
+          lectureId: lecture.id,
+        },
+      });
+    }
+  }
+
+  console.log("Seeded doctor, sample course, and students:");
+  console.log(`  doctor:   ${DOCTOR_EMAIL} / ${DOCTOR_PASSWORD}`);
+  console.log(`  course:   ${course.title} (${course.id})`);
+  console.log(`  students: student1|2|3@atlas.local / ${STUDENT_PASSWORD}`);
+  console.log("  progress: 0/3, 1/3, 3/3");
 }
 
 main()

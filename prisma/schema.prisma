@@ -9,6 +9,7 @@ datasource db {
 
 enum Role {
   DOCTOR
+  STUDENT
 }
 
 enum CourseStatus {
@@ -27,14 +28,16 @@ enum SourceType {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  email     String   @unique
-  password  String
-  role      Role     @default(DOCTOR)
-  courses   Course[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String            @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  email            String            @unique
+  password         String
+  role             Role              @default(DOCTOR)
+  courses          Course[]
+  enrollments      Enrollment[]
+  lectureProgress  LectureProgress[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
 }
 
 model Course {
@@ -46,20 +49,44 @@ model Course {
   doctorId        String       @db.ObjectId
   doctor          User         @relation(fields: [doctorId], references: [id])
   lectures        Lecture[]
+  enrollments     Enrollment[]
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 }
 
 model Lecture {
-  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String
   sourceUrl   String
-  sourceType  SourceType    @default(LINK)
-  order       Int           @default(0)
-  status      LectureStatus @default(DRAFT)
-  courseId    String        @db.ObjectId
-  course      Course        @relation(fields: [courseId], references: [id])
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  sourceType  SourceType        @default(LINK)
+  order       Int               @default(0)
+  status      LectureStatus     @default(DRAFT)
+  courseId    String            @db.ObjectId
+  course      Course            @relation(fields: [courseId], references: [id])
+  progress    LectureProgress[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+model Enrollment {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   @db.ObjectId
+  courseId   String   @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id])
+  course     Course   @relation(fields: [courseId], references: [id])
+  enrolledAt DateTime @default(now())
+
+  @@unique([userId, courseId])
+}
+
+model LectureProgress {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  lectureId   String   @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
+  lecture     Lecture  @relation(fields: [lectureId], references: [id])
+  completedAt DateTime @default(now())
+
+  @@unique([userId, lectureId])
 }

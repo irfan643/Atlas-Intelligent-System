@@ -23,7 +23,7 @@ export const doctorSectionTitle =
 
 /** Compact primary/secondary actions */
 export const doctorActionButton =
-  "h-9 rounded-md px-3.5 text-sm font-medium";
+  "h-9 gap-1.5 rounded-md px-3.5 text-sm font-medium [&_svg]:size-3.5";
 
 /** Compact lecture video preview */
 export const doctorVideoPreview =

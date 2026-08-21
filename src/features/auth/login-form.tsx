@@ -3,7 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -17,6 +18,7 @@ import { loginSchema, type LoginInput, type PublicUser } from "./schema";
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -25,9 +27,35 @@ export function LoginForm() {
     },
   });
 
+  useEffect(() => {
+    const notice = searchParams.get("notice");
+    const joined = searchParams.get("joined");
+
+    if (joined === "1") {
+      toast.success("Account ready. Sign in to continue.");
+      router.replace("/login");
+      return;
+    }
+
+    if (notice === "student-workspace") {
+      toast.message(
+        "Student workspace is not available yet. Doctor accounts can sign in to the dashboard.",
+      );
+      router.replace("/login");
+    }
+  }, [searchParams, router]);
+
   async function onSubmit(values: LoginInput) {
     try {
       const { data } = await api.post<{ user: PublicUser }>("/auth/login", values);
+
+      if (data.user.role === "STUDENT") {
+        toast.message(
+          "Student workspace is coming soon. Your account is ready for when it launches.",
+        );
+        return;
+      }
+
       toast.success(`Welcome back, ${data.user.name}.`);
       router.push("/dashboard");
       router.refresh();
@@ -85,7 +113,7 @@ export function LoginForm() {
         </Button>
       </form>
       <p className="mt-4 text-center text-sm leading-6 font-normal text-muted-foreground">
-        New doctor?{" "}
+        New here?{" "}
         <Link href="/register" className="font-medium text-primary">
           Create an account
         </Link>

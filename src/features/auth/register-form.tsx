@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -11,12 +12,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/lib/api/client";
+import { cn } from "@/lib/utils";
 
 import { AuthPasswordField } from "./auth-password-field";
 import { registerSchema, type PublicUser, type RegisterInput } from "./schema";
 
+type RegisterRole = "DOCTOR" | "STUDENT";
+
 export function RegisterForm() {
   const router = useRouter();
+  const [role, setRole] = useState<RegisterRole>("DOCTOR");
   const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -24,16 +29,29 @@ export function RegisterForm() {
       email: "",
       password: "",
       confirmPassword: "",
+      role: "DOCTOR",
     },
   });
 
+  function selectRole(next: RegisterRole) {
+    setRole(next);
+    form.setValue("role", next);
+  }
+
   async function onSubmit(values: RegisterInput) {
     try {
-      const { data } = await api.post<{ user: PublicUser }>(
-        "/auth/register",
-        values,
-      );
+      const { data } = await api.post<{ user: PublicUser }>("/auth/register", {
+        ...values,
+        role,
+      });
       toast.success(`Account created for ${data.user.name}.`);
+
+      if (data.user.role === "STUDENT") {
+        toast.message("Student workspace is coming soon. Please sign in later.");
+        router.push("/login");
+        return;
+      }
+
       router.push("/dashboard");
       router.refresh();
     } catch (error) {
@@ -51,9 +69,39 @@ export function RegisterForm() {
           Create your account
         </h1>
         <p className="text-sm leading-6 font-normal text-muted-foreground">
-          Register to open your doctor workspace and manage your own courses.
+          {role === "DOCTOR"
+            ? "Register to open your doctor workspace and manage your own courses."
+            : "Register as a student. Course access comes from a doctor invite."}
         </p>
       </div>
+
+      <div className="mt-4 grid grid-cols-2 gap-1 rounded-md border bg-muted/50 p-1">
+        <button
+          type="button"
+          className={cn(
+            "h-9 rounded-md text-sm font-medium transition-colors",
+            role === "DOCTOR"
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+          onClick={() => selectRole("DOCTOR")}
+        >
+          Doctor
+        </button>
+        <button
+          type="button"
+          className={cn(
+            "h-9 rounded-md text-sm font-medium transition-colors",
+            role === "STUDENT"
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+          onClick={() => selectRole("STUDENT")}
+        >
+          Student
+        </button>
+      </div>
+
       <form className="mt-5 space-y-3.5" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid gap-3.5 sm:grid-cols-2">
           <div className="space-y-1.5">

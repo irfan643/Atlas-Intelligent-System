@@ -41,9 +41,14 @@ export const profileUpdateSchema = z.object({
   ]),
 });
 
+export const courseInviteSchema = z.object({
+  email: z.email("Please enter a valid email."),
+});
+
 export type CourseCreateInput = z.infer<typeof courseCreateSchema>;
 export type CourseUpdateInput = z.infer<typeof courseUpdateSchema>;
 export type CourseStatusInput = z.infer<typeof courseStatusSchema>;
 export type LectureCreateInput = z.infer<typeof lectureCreateSchema>;
 export type LectureUpdateInput = z.infer<typeof lectureUpdateSchema>;
 export type ProfileUpdateInput = z.infer<typeof profileUpdateSchema>;
+export type CourseInviteInput = z.infer<typeof courseInviteSchema>;

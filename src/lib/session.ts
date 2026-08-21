@@ -40,7 +40,7 @@ export async function getSession(): Promise<SessionUser | null> {
 export async function requireDoctorSession(): Promise<SessionUser> {
   const session = await getSession();
 
-  if (!session) {
+  if (!session || session.role !== "DOCTOR") {
     throw new Error("UNAUTHORIZED");
   }
 

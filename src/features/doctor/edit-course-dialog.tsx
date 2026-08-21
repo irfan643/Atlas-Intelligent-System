@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -79,6 +80,7 @@ export function EditCourseDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className={doctorActionButton}>
+          <Pencil />
           Edit course
         </Button>
       </DialogTrigger>

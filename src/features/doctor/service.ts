@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db";
 
 import type {
   CourseCreateInput,
+  CourseInviteInput,
   CourseStatusInput,
   CourseUpdateInput,
   LectureCreateInput,
@@ -12,6 +13,8 @@ import type {
   ProfileUpdateInput,
 } from "./schema";
 import { inferSourceType } from "./youtube";
+import { buildJoinUrl, encodeInviteToken } from "@/lib/invite-token";
+import { sendInviteEmail } from "@/lib/mail";
 
 export class DoctorError extends Error {
   constructor(
@@ -224,4 +227,85 @@ export async function updateDoctorProfile(
 
     throw error;
   }
+}
+
+export async function listCourseStudents(doctorId: string, courseId: string) {
+  const course = await getDoctorCourse(doctorId, courseId);
+  const lectureIds = course.lectures.map((lecture) => lecture.id);
+  const lectureTotal = lectureIds.length;
+
+  const enrollments = await prisma.enrollment.findMany({
+    where: { courseId },
+    orderBy: { enrolledAt: "asc" },
+    include: {
+      user: {
+        select: { id: true, name: true, email: true },
+      },
+    },
+  });
+
+  const progressCounts = await Promise.all(
+    enrollments.map(async (enrollment) => {
+      if (lectureTotal === 0) {
+        return 0;
+      }
+
+      return prisma.lectureProgress.count({
+        where: {
+          userId: enrollment.userId,
+          lectureId: { in: lectureIds },
+        },
+      });
+    }),
+  );
+
+  return enrollments.map((enrollment, index) => {
+    const completedCount = progressCounts[index] ?? 0;
+    const percent =
+      lectureTotal === 0
+        ? 0
+        : Math.round((completedCount / lectureTotal) * 100);
+
+    return {
+      id: enrollment.user.id,
+      name: enrollment.user.name,
+      email: enrollment.user.email,
+      enrolledAt: enrollment.enrolledAt,
+      completedCount,
+      lectureTotal,
+      percent,
+    };
+  });
+}
+
+export async function inviteStudentToCourse(
+  doctorId: string,
+  courseId: string,
+  input: CourseInviteInput,
+  origin?: string,
+) {
+  const course = await prisma.course.findFirst({
+    where: { id: courseId, doctorId },
+    select: { id: true, title: true },
+  });
+
+  if (!course) {
+    throw new DoctorError("Course not found.", 404);
+  }
+
+  const email = input.email.toLowerCase();
+  const token = await encodeInviteToken({ courseId: course.id, email });
+  const joinUrl = buildJoinUrl(token, origin);
+  const mail = await sendInviteEmail({
+    to: email,
+    courseTitle: course.title,
+    joinUrl,
+  });
+
+  return {
+    ok: true as const,
+    joinUrl,
+    emailSent: mail.sent,
+    mailError: mail.error,
+  };
 }
