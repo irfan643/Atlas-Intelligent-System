@@ -19,10 +19,12 @@ export default async function ProfilePage() {
   const profile = await getDoctorProfile(session.id);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="font-heading text-2xl tracking-tight">Profile</h1>
-        <p className="mt-1 text-muted-foreground">
+    <div className="space-y-5">
+      <div className="space-y-1">
+        <h1 className="font-heading text-xl font-semibold tracking-tight">
+          Profile
+        </h1>
+        <p className="text-sm text-muted-foreground">
           Update your doctor account details.
         </p>
       </div>

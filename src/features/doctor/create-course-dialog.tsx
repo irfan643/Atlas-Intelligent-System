@@ -71,14 +71,14 @@ export function CreateCourseDialog({
         <Button className={doctorActionButton}>{triggerLabel}</Button>
       </DialogTrigger>
       <DialogContent className={doctorDialogContent}>
-        <DialogHeader className="space-y-2">
+        <DialogHeader className="space-y-1.5">
           <DialogTitle className={doctorDialogTitle}>Create course</DialogTitle>
           <DialogDescription>
             Add a new course you own. You can edit details and status later.
           </DialogDescription>
         </DialogHeader>
-        <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="space-y-2">
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-1.5">
             <Label htmlFor="course-title" className="text-sm font-semibold">
               Title
             </Label>
@@ -95,14 +95,14 @@ export function CreateCourseDialog({
               </p>
             ) : null}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="course-description" className="text-sm font-semibold">
               Description
             </Label>
             <Textarea
               id="course-description"
               className={doctorFieldTextarea}
-              rows={5}
+              rows={4}
               placeholder="What this course covers"
               aria-invalid={Boolean(form.formState.errors.description)}
               {...form.register("description")}
@@ -113,7 +113,7 @@ export function CreateCourseDialog({
               </p>
             ) : null}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="course-status" className="text-sm font-semibold">
               Status
             </Label>
@@ -126,7 +126,7 @@ export function CreateCourseDialog({
               <option value="PUBLISHED">Published</option>
             </select>
           </div>
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-2 pt-1">
             <Button
               type="button"
               variant="outline"

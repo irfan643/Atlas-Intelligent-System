@@ -50,12 +50,12 @@ export function AppSidebar({
 
   return (
     <Sidebar collapsible="offcanvas">
-      <SidebarHeader className="h-14 justify-center border-b px-4 py-0">
+      <SidebarHeader className="h-12 justify-center border-b px-3 py-0">
         <Link
           href="/dashboard"
           className="flex min-w-0 flex-col justify-center gap-0.5"
         >
-          <span className="text-lg leading-none font-extrabold tracking-[-0.04em]">
+          <span className="text-base leading-none font-extrabold tracking-[-0.04em]">
             {site.name}
           </span>
           <span className="text-xs font-semibold text-violet">
@@ -64,7 +64,7 @@ export function AppSidebar({
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup className="px-3 py-4">
+        <SidebarGroup className="px-2 py-3">
           <SidebarGroupContent>
             <SidebarMenu className="gap-0.5">
               {appNav.map((item) => {
@@ -82,7 +82,7 @@ export function AppSidebar({
                       isActive={isActive}
                       tooltip={item.label}
                       className={cn(
-                        "rounded-sm px-2 text-sm font-semibold",
+                        "rounded-md px-2 text-sm font-medium",
                         "hover:bg-muted hover:text-foreground",
                         "data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:hover:bg-primary/90 data-[active=true]:hover:text-primary-foreground",
                       )}
@@ -102,7 +102,7 @@ export function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="space-y-3 border-t px-4 py-3">
+      <SidebarFooter className="space-y-2 border-t px-3 py-3">
         {doctorName ? (
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">{doctorName}</p>
@@ -116,7 +116,7 @@ export function AppSidebar({
         <Button
           variant="outline"
           size="sm"
-          className="w-full justify-start gap-2"
+          className="h-9 w-full justify-start gap-2 rounded-md"
           onClick={handleLogout}
         >
           <LogOut className="size-4" />

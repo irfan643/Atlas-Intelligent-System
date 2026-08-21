@@ -26,11 +26,11 @@ type CourseItem = {
 
 export function DoctorCoursesPage({ courses }: { courses: CourseItem[] }) {
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-end justify-between gap-5">
-        <div className="space-y-2">
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="space-y-1">
           <h1 className={doctorPageTitle}>My Courses</h1>
-          <p className="text-base text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Only courses you created. Open one for its course dashboard.
           </p>
         </div>
@@ -38,9 +38,9 @@ export function DoctorCoursesPage({ courses }: { courses: CourseItem[] }) {
       </div>
 
       {courses.length === 0 ? (
-        <Card className="rounded-lg">
-          <CardHeader className="gap-2 p-6">
-            <CardTitle className="text-base font-semibold">
+        <Card size="sm" className="gap-0 rounded-lg py-0">
+          <CardHeader className="gap-1 p-5">
+            <CardTitle className="text-sm font-semibold">
               No courses yet
             </CardTitle>
             <CardDescription>
@@ -49,12 +49,16 @@ export function DoctorCoursesPage({ courses }: { courses: CourseItem[] }) {
           </CardHeader>
         </Card>
       ) : (
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {courses.map((course) => (
-            <Card key={course.id} className="flex flex-col rounded-lg">
-              <CardHeader className="space-y-3 p-6">
+            <Card
+              key={course.id}
+              size="sm"
+              className="flex flex-col gap-0 rounded-lg py-0"
+            >
+              <CardHeader className="space-y-1.5 p-5">
                 <div className="flex items-start justify-between gap-3">
-                  <CardTitle className="text-lg leading-snug font-semibold">
+                  <CardTitle className="text-base leading-snug font-semibold">
                     {course.title}
                   </CardTitle>
                   <Badge
@@ -66,12 +70,12 @@ export function DoctorCoursesPage({ courses }: { courses: CourseItem[] }) {
                     {course.status === "PUBLISHED" ? "published" : "draft"}
                   </Badge>
                 </div>
-                <CardDescription className="line-clamp-3 text-sm leading-6">
+                <CardDescription className="line-clamp-2 text-sm leading-5">
                   {course.description}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="mt-auto space-y-4 px-6 pb-6">
-                <p className="text-sm text-muted-foreground">
+              <CardContent className="mt-auto space-y-2.5 px-5 pb-5">
+                <p className="text-xs text-muted-foreground">
                   {course._count.lectures} lecture
                   {course._count.lectures === 1 ? "" : "s"} ·{" "}
                   {course.enrollmentCount} enrolled

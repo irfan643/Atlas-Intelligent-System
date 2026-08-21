@@ -70,14 +70,14 @@ export function CreateLectureDialog({ courseId }: { courseId: string }) {
         <Button className={doctorActionButton}>Add lecture</Button>
       </DialogTrigger>
       <DialogContent className={doctorDialogContent}>
-        <DialogHeader className="space-y-2">
+        <DialogHeader className="space-y-1.5">
           <DialogTitle className={doctorDialogTitle}>Add lecture</DialogTitle>
           <DialogDescription>
             Add a lecture with a description and source URL (YouTube or link).
           </DialogDescription>
         </DialogHeader>
-        <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="space-y-2">
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-1.5">
             <Label htmlFor="lecture-title" className="text-sm font-semibold">
               Title
             </Label>
@@ -93,7 +93,7 @@ export function CreateLectureDialog({ courseId }: { courseId: string }) {
               </p>
             ) : null}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label
               htmlFor="lecture-description"
               className="text-sm font-semibold"
@@ -103,7 +103,7 @@ export function CreateLectureDialog({ courseId }: { courseId: string }) {
             <Textarea
               id="lecture-description"
               className={doctorFieldTextarea}
-              rows={4}
+              rows={3}
               {...form.register("description")}
               aria-invalid={Boolean(form.formState.errors.description)}
             />
@@ -113,7 +113,7 @@ export function CreateLectureDialog({ courseId }: { courseId: string }) {
               </p>
             ) : null}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="lecture-url" className="text-sm font-semibold">
               Source URL
             </Label>
@@ -136,12 +136,12 @@ export function CreateLectureDialog({ courseId }: { courseId: string }) {
               <iframe
                 title="YouTube preview"
                 src={embedUrl}
-                className="aspect-video h-auto max-h-48 w-full"
+                className="aspect-video h-auto max-h-40 w-full"
                 allowFullScreen
               />
             </div>
           ) : null}
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-2 pt-1">
             <Button
               type="button"
               variant="outline"

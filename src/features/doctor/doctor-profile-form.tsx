@@ -16,7 +16,6 @@ import { AuthPasswordField } from "@/features/auth/auth-password-field";
 import {
   doctorActionButton,
   doctorFieldInput,
-  doctorPageTitle,
 } from "./form-ui";
 import {
   profileUpdateSchema,
@@ -59,18 +58,12 @@ export function DoctorProfileForm({
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-xl flex-col items-stretch py-4">
-      <div className="mb-8 space-y-2 text-center">
-        <h1 className={doctorPageTitle}>Profile</h1>
-        <p className="text-base text-muted-foreground">
-          Update your doctor account details.
-        </p>
-      </div>
+    <div className="mx-auto w-full max-w-xl">
       <form
-        className="w-full space-y-5 rounded-md border bg-card p-6 sm:p-8"
+        className="w-full space-y-4 rounded-md border bg-card p-5"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="profile-name" className="text-sm font-semibold">
             Name
           </Label>
@@ -86,7 +79,7 @@ export function DoctorProfileForm({
             </p>
           ) : null}
         </div>
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="profile-email" className="text-sm font-semibold">
             Email
           </Label>

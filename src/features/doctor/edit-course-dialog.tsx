@@ -83,14 +83,14 @@ export function EditCourseDialog({
         </Button>
       </DialogTrigger>
       <DialogContent className={doctorDialogContent}>
-        <DialogHeader className="space-y-2">
+        <DialogHeader className="space-y-1.5">
           <DialogTitle className={doctorDialogTitle}>Edit course</DialogTitle>
           <DialogDescription>
             Update the title and description for this course.
           </DialogDescription>
         </DialogHeader>
-        <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="space-y-2">
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-1.5">
             <Label htmlFor="edit-course-title" className="text-sm font-semibold">
               Title
             </Label>
@@ -106,7 +106,7 @@ export function EditCourseDialog({
               </p>
             ) : null}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label
               htmlFor="edit-course-description"
               className="text-sm font-semibold"
@@ -116,7 +116,7 @@ export function EditCourseDialog({
             <Textarea
               id="edit-course-description"
               className={doctorFieldTextarea}
-              rows={5}
+              rows={4}
               aria-invalid={Boolean(form.formState.errors.description)}
               {...form.register("description")}
             />
@@ -126,7 +126,7 @@ export function EditCourseDialog({
               </p>
             ) : null}
           </div>
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-2 pt-1">
             <Button
               type="button"
               variant="outline"

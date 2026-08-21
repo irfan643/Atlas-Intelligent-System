@@ -26,7 +26,7 @@ export default async function AppLayout({
         />
         <SidebarInset>
           <WorkspaceHeader />
-          <div className="flex-1 px-6 py-6">{children}</div>
+          <div className="flex-1 px-5 py-5">{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>

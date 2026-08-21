@@ -90,14 +90,14 @@ export function EditLectureDialog({
         </Button>
       </DialogTrigger>
       <DialogContent className={doctorDialogContent}>
-        <DialogHeader className="space-y-2">
+        <DialogHeader className="space-y-1.5">
           <DialogTitle className={doctorDialogTitle}>Edit lecture</DialogTitle>
           <DialogDescription>
             Update the title, description, and source URL.
           </DialogDescription>
         </DialogHeader>
-        <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="space-y-2">
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="space-y-1.5">
             <Label htmlFor={`edit-lecture-title-${lecture.id}`} className="text-sm font-semibold">
               Title
             </Label>
@@ -113,7 +113,7 @@ export function EditLectureDialog({
               </p>
             ) : null}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label
               htmlFor={`edit-lecture-description-${lecture.id}`}
               className="text-sm font-semibold"
@@ -123,7 +123,7 @@ export function EditLectureDialog({
             <Textarea
               id={`edit-lecture-description-${lecture.id}`}
               className={doctorFieldTextarea}
-              rows={4}
+              rows={3}
               {...form.register("description")}
               aria-invalid={Boolean(form.formState.errors.description)}
             />
@@ -133,7 +133,7 @@ export function EditLectureDialog({
               </p>
             ) : null}
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label
               htmlFor={`edit-lecture-url-${lecture.id}`}
               className="text-sm font-semibold"
@@ -158,12 +158,12 @@ export function EditLectureDialog({
               <iframe
                 title="YouTube preview"
                 src={embedUrl}
-                className="aspect-video h-auto max-h-48 w-full"
+                className="aspect-video h-auto max-h-40 w-full"
                 allowFullScreen
               />
             </div>
           ) : null}
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-2 pt-1">
             <Button
               type="button"
               variant="outline"

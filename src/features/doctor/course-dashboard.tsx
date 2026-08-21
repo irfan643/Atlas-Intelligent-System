@@ -41,10 +41,10 @@ type CourseData = {
 
 export function CourseDashboard({ course }: { course: CourseData }) {
   return (
-    <div className="space-y-10">
-      <div className="flex flex-wrap items-start justify-between gap-5">
-        <div className="max-w-3xl space-y-3">
-          <div className="flex flex-wrap items-center gap-3">
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="max-w-3xl space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
             <h1 className={doctorPageTitle}>{course.title}</h1>
             <Badge
               variant={course.status === "PUBLISHED" ? "default" : "outline"}
@@ -53,7 +53,7 @@ export function CourseDashboard({ course }: { course: CourseData }) {
               {course.status === "PUBLISHED" ? "published" : "draft"}
             </Badge>
           </div>
-          <p className="text-base leading-7 text-muted-foreground">
+          <p className="text-sm leading-6 text-muted-foreground">
             {course.description}
           </p>
         </div>
@@ -64,45 +64,45 @@ export function CourseDashboard({ course }: { course: CourseData }) {
         </div>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-3">
-        <Card className="rounded-lg">
-          <CardHeader className="gap-2 pb-4">
+      <div className="grid gap-3 sm:grid-cols-3">
+        <Card size="sm" className="gap-0 rounded-lg py-0">
+          <CardHeader className="gap-1 p-5">
             <CardDescription className="font-medium">Lectures</CardDescription>
-            <CardTitle className="text-3xl font-bold tabular-nums">
+            <CardTitle className="text-2xl font-bold tabular-nums">
               {course._count.lectures}
             </CardTitle>
           </CardHeader>
         </Card>
-        <Card className="rounded-lg">
-          <CardHeader className="gap-2 pb-4">
+        <Card size="sm" className="gap-0 rounded-lg py-0">
+          <CardHeader className="gap-1 p-5">
             <CardDescription className="font-medium">Enrollments</CardDescription>
-            <CardTitle className="text-3xl font-bold tabular-nums">
+            <CardTitle className="text-2xl font-bold tabular-nums">
               {course.enrollmentCount}
             </CardTitle>
           </CardHeader>
         </Card>
-        <Card className="rounded-lg">
-          <CardHeader className="gap-2 pb-4">
+        <Card size="sm" className="gap-0 rounded-lg py-0">
+          <CardHeader className="gap-1 p-5">
             <CardDescription className="font-medium">Status</CardDescription>
-            <CardTitle className="text-xl font-semibold capitalize">
+            <CardTitle className="text-base font-semibold capitalize">
               {course.status === "PUBLISHED" ? "Published" : "Draft"}
             </CardTitle>
           </CardHeader>
         </Card>
       </div>
 
-      <div className="space-y-5">
+      <div className="space-y-3">
         <div>
           <h2 className={doctorSectionTitle}>Lectures</h2>
-          <p className="mt-1.5 text-sm text-muted-foreground">
+          <p className="mt-1 text-sm text-muted-foreground">
             Sources you added for this course.
           </p>
         </div>
 
         {course.lectures.length === 0 ? (
-          <Card className="rounded-lg">
-            <CardHeader className="gap-2 p-6">
-              <CardTitle className="text-base font-semibold">
+          <Card size="sm" className="gap-0 rounded-lg py-0">
+            <CardHeader className="gap-1 p-5">
+              <CardTitle className="text-sm font-semibold">
                 No lectures yet
               </CardTitle>
               <CardDescription>
@@ -111,30 +111,31 @@ export function CourseDashboard({ course }: { course: CourseData }) {
             </CardHeader>
           </Card>
         ) : (
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {course.lectures.map((lecture, index) => {
               const embedUrl = getYouTubeEmbedUrl(lecture.sourceUrl);
 
               return (
                 <Card
                   key={lecture.id}
-                  className="flex h-full flex-col rounded-lg"
+                  size="sm"
+                  className="flex h-full flex-col gap-0 rounded-lg py-0"
                 >
-                  <CardHeader className="space-y-3 p-5 pb-3">
+                  <CardHeader className="space-y-1.5 p-5 pb-2">
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                         Lecture {index + 1}
                       </p>
                       <EditLectureDialog lecture={lecture} />
                     </div>
-                    <CardTitle className="line-clamp-2 text-base font-semibold">
+                    <CardTitle className="line-clamp-2 text-sm font-semibold">
                       {lecture.title}
                     </CardTitle>
-                    <CardDescription className="line-clamp-3 text-sm leading-6">
+                    <CardDescription className="line-clamp-2 text-sm leading-5">
                       {lecture.description}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="mt-auto space-y-4 px-5 pb-5">
+                  <CardContent className="mt-auto space-y-2.5 px-5 pb-5">
                     <Link
                       href={lecture.sourceUrl}
                       target="_blank"
