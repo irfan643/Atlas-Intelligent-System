@@ -33,11 +33,12 @@ model User {
   email            String            @unique
   password         String
   role             Role              @default(DOCTOR)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+ 
   courses          Course[]
   enrollments      Enrollment[]
   lectureProgress  LectureProgress[]
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
 }
 
 model Course {
@@ -47,11 +48,12 @@ model Course {
   status          CourseStatus @default(DRAFT)
   enrollmentCount Int          @default(0)
   doctorId        String       @db.ObjectId
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
   doctor          User         @relation(fields: [doctorId], references: [id])
   lectures        Lecture[]
   enrollments     Enrollment[]
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
 }
 
 model Lecture {
@@ -63,20 +65,21 @@ model Lecture {
   order       Int               @default(0)
   status      LectureStatus     @default(DRAFT)
   courseId    String            @db.ObjectId
-  course      Course            @relation(fields: [courseId], references: [id])
-  progress    LectureProgress[]
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
+   
+   course      Course           @relation(fields: [courseId], references: [id])
+  progress    LectureProgress[]
 }
 
 model Enrollment {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   userId     String   @db.ObjectId
   courseId   String   @db.ObjectId
-  user       User     @relation(fields: [userId], references: [id])
-  course     Course   @relation(fields: [courseId], references: [id])
   enrolledAt DateTime @default(now())
 
+  user       User     @relation(fields: [userId], references: [id])
+  course     Course   @relation(fields: [courseId], references: [id])
   @@unique([userId, courseId])
 }
 
@@ -84,9 +87,9 @@ model LectureProgress {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   userId      String   @db.ObjectId
   lectureId   String   @db.ObjectId
-  user        User     @relation(fields: [userId], references: [id])
-  lecture     Lecture  @relation(fields: [lectureId], references: [id])
   completedAt DateTime @default(now())
 
+  user        User     @relation(fields: [userId], references: [id])
+  lecture     Lecture  @relation(fields: [lectureId], references: [id])
   @@unique([userId, lectureId])
 }
